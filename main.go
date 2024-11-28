@@ -270,7 +270,14 @@ func unzipArchiveToDestination(zipFile string, dest string) error {
 	return nil
 }
 
+func waitForKeyPress() {
+	fmt.Println("Press any key to continue...")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+}
+
 func main() {
+	defer waitForKeyPress()
+
 	fmt.Println("Generating new seed...")
 
 	config, err := getConfiguration()

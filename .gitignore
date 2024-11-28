@@ -27,3 +27,4 @@ go.work.sum
 reseed-config.json
 biorand-seeds/
 .vscode/launch.json
+build/
