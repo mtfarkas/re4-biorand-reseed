@@ -181,7 +181,7 @@ func queryBiorandSeedDownloadLink(generateStartResponse *GenerateResponse, biora
 	return &queryResponse, nil
 }
 
-func downloadSeedZip(seed string, downloadUrl string) (string, error) {
+func downloadSeedZip(seed string, version string, downloadUrl string) (string, error) {
 	client := http.Client{}
 
 	resp, err := client.Get(downloadUrl)
@@ -203,7 +203,8 @@ func downloadSeedZip(seed string, downloadUrl string) (string, error) {
 		}
 	}
 
-	downloadDir := path.Join("biorand-seeds", seed)
+	seedDir := fmt.Sprintf("%s-v%s", seed, version)
+	downloadDir := path.Join("biorand-seeds", seedDir)
 	err = os.MkdirAll(downloadDir, os.FileMode(int(0777)))
 	if err != nil {
 		return "", fmt.Errorf("failed to create biorand seed folder; %w", err)
@@ -362,7 +363,7 @@ func main() {
 
 	fmt.Println()
 	fmt.Println("Downloading seed zip...")
-	zipPath, err := downloadSeedZip(seed, downloadLink)
+	zipPath, err := downloadSeedZip(seed, seedResponse.Version, downloadLink)
 	if err != nil {
 		fmt.Printf("Error downloading seed zip: %v\n", err)
 		return
